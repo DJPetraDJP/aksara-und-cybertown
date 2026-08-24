@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="de">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Cybertown UFO</title></head>
+<body>
+<p style="font-family:system-ui;padding:2rem">Lade Spiel…</p>
+<script src="game_b64_1.js"></script>
+<script src="game_b64_2.js"></script>
+<script src="game_b64_3.js"></script>
+<script src="game_b64_4.js"></script>
+<script src="game_b64_5.js"></script>
+<script src="game_b64_6.js"></script>
+<script>
+const parts = [];
+for (let i = 1; i <= 20; i++) {
+  const p = window['__GAME_B64_' + i];
+  if (p) parts.push(p);
+}
+const b64 = parts.join('');
+const bin = atob(b64);
+const bytes = new Uint8Array(bin.length);
+for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+const html = new TextDecoder().decode(bytes);
+document.open();
+document.write(html);
+document.close();
+</script>
+</body>
+</html>
