@@ -1,0 +1,14 @@
+
+  startBtn.click();
+});
+
+window.addEventListener("resize", () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+
+updateHud();
+  </script>
+</body>
+</html>
