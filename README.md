@@ -2,17 +2,18 @@
 
 | App | File | Description |
 |-----|------|-------------|
-| **UFOZOMB** | [ufozomb.html](ufozomb.html) | Bordeaux UFO vs Bot-zombies over Cybertown |
-| **Learn Thai** | [learn-thai.html](learn-thai.html) | Thai alphabet (English + Thai UI) |
+| **UFOZOMB** | `ufozomb.html` | 3D UFO shooter · Cybertown · finger controls |
+| **Learn Thai** | `learn-thai.html` | Thai letters · EN / ไทย · lessons & practice |
 
-## Live
+## Live site (after one upload)
 
-Enable **Settings → Pages → Deploy from branch `main` (root)**, then:
-
-**https://djpetradjp.github.io/aksara-und-cybertown/**
+1. Download the two HTML files (see chat or Releases).
+2. On this repo: **Add file → Upload files** → drop both HTML files → Commit.
+3. **Settings → Pages → Deploy from branch `main` / root → Save**.
+4. Open: **https://djpetradjp.github.io/aksara-und-cybertown/**
 
 ## Local
 
-Serve the folder over HTTP or open the loaders with all `*_b64_*.js` files in the same directory.
+Open `ufozomb.html` or `learn-thai.html` in any browser (offline OK).
 
 Free to use and share.
