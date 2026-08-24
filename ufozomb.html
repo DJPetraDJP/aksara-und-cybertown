@@ -1,42 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>UFOZOMB</title>
-  <style>
-    body { margin: 0; background: #0a0612; color: #f5e6ea; font-family: system-ui, sans-serif; }
-    .boot { padding: 2.5rem; text-align: center; opacity: 0.85; }
-  </style>
-</head>
-<body>
-  <p class="boot">Loading UFOZOMB…</p>
-  <script src="ufozomb_b64_1.js"></script>
-  <script src="ufozomb_b64_2.js"></script>
-  <script src="ufozomb_b64_3.js"></script>
-  <script src="ufozomb_b64_4.js"></script>
-  <script src="ufozomb_b64_5.js"></script>
-  <script src="ufozomb_b64_6.js"></script>
-  <script src="ufozomb_b64_7.js"></script>
-  <script>
-  (function () {
-    const parts = [];
-    for (let i = 1; i <= 7; i++) {
-      const p = window['__UFOZOMB_B64_' + i];
-      if (p) parts.push(p);
-    }
-    if (!parts.length) {
-      document.body.innerHTML = '<p class="boot">Data files missing. Open via GitHub Pages.</p>';
-      return;
-    }
-    const bin = atob(parts.join(''));
-    const bytes = new Uint8Array(bin.length);
-    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-    const html = new TextDecoder('utf-8').decode(bytes);
-    document.open();
-    document.write(html);
-    document.close();
-  })();
-  </script>
-</body>
-</html>
+<html lang="en"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>UFOZOMB</title>
+<style>body{margin:0;background:#111;color:#eee;font-family:system-ui}.b{padding:2.5rem;text-align:center}</style>
+</head><body><p class="b">Loading UFOZOMB…</p>
+<script>
+(async function(){
+  try {
+    var parts = await Promise.all([1,2,3,4,5,6,7].map(function(i){
+      return fetch("ufozomb_gz_"+i+".txt").then(function(r){ if(!r.ok) throw new Error(r.status); return r.text(); });
+    }));
+    var b64 = parts.join("");
+    var bin = Uint8Array.from(atob(b64), function(c){ return c.charCodeAt(0); });
+    var ds = new DecompressionStream("gzip");
+    var stream = new Response(bin).body.pipeThrough(ds);
+    var html = await new Response(stream).text();
+    document.open(); document.write(html); document.close();
+  } catch(e) {
+    document.body.innerHTML = "<p class=b>Load error: "+e+"</p>";
+  }
+})();
+</script></body></html>
