@@ -1,0 +1,115 @@
+span></div>
+        <div class="hint" id="left">Bots übrig: 14</div>
+      </div>
+      <div class="panel">
+        <div class="hint" id="help">
+          Finger ziehen / Joystick = fliegen<br />
+          FEUER oder antippen = schießen
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="controls">
+    <div class="pad" id="pad" aria-label="Steuerung"><div class="stick" id="stick"></div></div>
+    <div class="fire" id="fireBtn" role="button" aria-label="Feuer">FEUER</div>
+  </div>
+
+  <div id="overlay">
+    <div class="card">
+      <h1>UFO<em>ZOMB</em></h1>
+      <p>
+        Mit dem <strong>Finger ziehen</strong> oder dem <strong>Joystick links</strong> fliegen.
+        Rechts <strong>FEUER</strong> drücken — zielt automatisch auf den nächsten Bot-Zombie.
+      </p>
+      <button id="start" type="button">Start</button>
+    </div>
+  </div>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"
+    }
+  }
+  </script>
+  <script type="module">
+import * as THREE from "three";
+
+const canvas = document.getElementById("c");
+const scoreEl = document.getElementById("score");
+const leftEl = document.getElementById("left");
+const overlay = document.getElementById("overlay");
+const startBtn = document.getElementById("start");
+const pad = document.getElementById("pad");
+const stick = document.getElementById("stick");
+const fireBtn = document.getElementById("fireBtn");
+
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: "high-performance" });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.15;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0b0614);
+scene.fog = new THREE.FogExp2(0x12081c, 0.018);
+
+const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.1, 200);
+camera.position.set(0, 28, 36);
+
+scene.add(new THREE.HemisphereLight(0xffc0d8, 0x1a1030, 0.85));
+const sun = new THREE.DirectionalLight(0xffe0f0, 1.35);
+sun.position.set(18, 40, 12);
+sun.castShadow = true;
+sun.shadow.mapSize.set(1024, 1024);
+sun.shadow.camera.left = -40;
+sun.shadow.camera.right = 40;
+sun.shadow.camera.top = 40;
+sun.shadow.camera.bottom = -40;
+scene.add(sun);
+const neon = new THREE.PointLight(0xff4d7a, 2.2, 60);
+neon.position.set(0, 12, 0);
+scene.add(neon);
+
+const ground = new THREE.Mesh(
+  new THREE.PlaneGeometry(120, 120),
+  new THREE.MeshStandardMaterial({ color: 0x1a1228, roughness: 0.92, metalness: 0.05 })
+);
+ground.rotation.x = -Math.PI / 2;
+ground.receiveShadow = true;
+scene.add(ground);
+scene.add(new THREE.GridHelper(100, 40, 0x5a2040, 0x2a1535));
+
+const roofs = [];
+function makeBuilding(x, z, w, d, h) {
+  const mat = new THREE.MeshStandardMaterial({
+    color: new THREE.Color().setHSL(0.78 + Math.random() * 0.08, 0.35, 0.12 + Math.random() * 0.08),
+    roughness: 0.55, metalness: 0.35,
+  });
+  const mesh = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
+  mesh.position.set(x, h / 2, z);
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
+  scene.add(mesh);
+  const strip = new THREE.Mesh(
+    new THREE.BoxGeometry(w * 0.92, Math.min(0.35, h * 0.08), d * 0.92),
+    new THREE.MeshStandardMaterial({
+      color: 0xff6a9a, emissive: 0xff2a66, emissiveIntensity: 0.9 + Math.random() * 0.6, roughness: 0.4,
+    })
+  );
+  strip.position.set(x, h * (0.35 + Math.random() * 0.4), z);
+  scene.add(strip);
+  roofs.push({ x, z, y: h, halfW: w / 2, halfD: d / 2 });
+}
+
+[
+  [-18, -14, 8, 8, 7], [-8, -16, 7, 6, 10], [4, -15, 9, 7, 6],
+  [16, -12, 8, 8, 11], [-20, 0, 7, 9, 8], [-6, 2, 10, 8, 5],
+  [8, 0, 8, 8, 12], [20, 2, 7, 7, 7], [-16, 14, 9, 8, 9],
+  [-2, 16, 8, 7, 6], [12, 14, 10, 9, 8], [22, 16, 6, 6, 10],
+  [0, -4, 6, 6, 14], [-12, -4, 5, 5, 9],
+]
