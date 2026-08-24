@@ -1,20 +1,18 @@
-# Aksara & Cybertown
+# UFOZOMB & Learn Thai
 
-Dauerhafte Offline-HTML-Apps.
+| App | File | Description |
+|-----|------|-------------|
+| **UFOZOMB** | [ufozomb.html](ufozomb.html) | Bordeaux UFO vs Bot-zombies over Cybertown |
+| **Learn Thai** | [learn-thai.html](learn-thai.html) | Thai alphabet (English + Thai UI) |
 
-## Apps
+## Live
 
-| App | Datei | Beschreibung |
-|-----|-------|--------------|
-| **Aksara** | [aksara-thai-letters.html](aksara-thai-letters.html) | Thai-Buchstaben lernen (EN/ไทย) |
-| **Cybertown UFO** | [cybertown-ufo-shooter.html](cybertown-ufo-shooter.html) | 3D-Shooter mit Fingersteuerung |
+Enable **Settings → Pages → Deploy from branch `main` (root)**, then:
 
-## Nutzen
+**https://djpetradjp.github.io/aksara-und-cybertown/**
 
-1. Datei herunterladen und im Browser öffnen, **oder**
-2. **GitHub Pages** aktivieren (Settings → Pages → Branch `main` / root)  
-   Dann z. B.: `https://djpetradjp.github.io/aksara-und-cybertown/`
+## Local
 
-## Lizenz
+Serve the folder over HTTP or open the loaders with all `*_b64_*.js` files in the same directory.
 
-Frei zum eigenen Gebrauch und Teilen.
+Free to use and share.
